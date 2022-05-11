@@ -23,7 +23,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 
 import model.Employee;
 import service.InterServiceCom;
-import util.SecurityFilter;
+//import util.SecurityFilter;
 @Path("/Employee")
 public class EmployeeService {
 	
@@ -126,7 +126,7 @@ public class EmployeeService {
 	}
 	
 	/*Note use for Inter Service Communication for Getting Employee Data by providing NIC*/
-	@GET
+	/*@GET
 	@Path("/Head/{nic}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String readEmpSource(@PathParam("nic") String id) {
@@ -136,7 +136,7 @@ public class EmployeeService {
 		result=emp.readEmp(id);
 		return result.toString();
 		
-	}
+	}*/
 	
 	
 	//Do not use the Below fucntion

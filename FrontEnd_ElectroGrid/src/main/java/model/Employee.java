@@ -17,16 +17,17 @@ public class Employee {
 	public String readEmp()
 	 {
 			String output = "";
+			
 			 try
 			 {
 					 Connection con = DB.connect();
 					 
 					 if (con == null)
 					 {return "Error while connecting to the database for reading."; }
-					 
+					 System.out.println("Read Employee2");
 					 
 					 // Prepare the html table to be displayed
-					 output = "<table border='1'><tr><th>NIC</th><th>Name</th>" +
+					 output = "<table border='1' class='table'><tr><th>NIC</th><th>Name</th>" +
 					 "<th>DOB</th>" +
 					 "<th>Address</th>" +
 					 "<th>Phone </th>" +
@@ -42,6 +43,7 @@ public class Employee {
 					 // iterate through the rows in the result set
 					 while (rs.next())
 					 {
+					 String empID=Integer.toString(rs.getInt("empid"));
 					 String nic = rs.getString("nic");
 					 String name = rs.getString("name");
 					 String dob = rs.getString("dob");
@@ -61,18 +63,24 @@ public class Employee {
 					 output += "<td>" + ph + "</td>";
 					 output += "<td>" + sal + "</td>";
 					 output += "<td>" + type + "</td>";
-					 output += "<td>" + branch + "</td></tr>";
+					 output += "<td>" + branch + "</td>";
 					 
+					 output += "<td><input name='btnUpdate' type='button' value='Update' "
+								+ "class='btnUpdate btn btn-secondary' data-empid='" + empID + "'></td>"
+								+ "<td><input name='btnRemove' type='button' value='Remove' "
+								+ "class='btnRemove btn btn-danger' data-empid='" + empID + "'></td></tr>";
 					 }
 					 con.close();
 					 
 					 // Complete the html table
 					 output += "</table>";
+					
 			 }
 			 catch (Exception e)
 			 {
 				 output = "Error while reading the Employee Data.";
 				 System.err.println(e.getMessage());
+				 System.out.println(e.getMessage());
 			 }
 			 	
 			 
@@ -115,11 +123,12 @@ public class Employee {
 					 // execute the statement
 					 preparedStmt.execute();
 					 con.close();
-					 output = "Inserted Employee Data Successfully";
+					 String emp = readEmp();
+					 output = "{\"status\":\"success\", \"data\": \"" + emp + "\"}";
 				 }
 				 catch (Exception e)
 				 {
-					 output = "Error while inserting the Employee Data.";
+					 output = "{\"status\":\"error\", \"data\": \"Error while inserting the employee data.\"}";
 					 System.err.println(e.getMessage());
 				 }
 				 
@@ -166,11 +175,12 @@ public class Employee {
 				 con.close();
 				 
 				 
-				 output = "Employee Data Updated successfully";
+				 String emp = readEmp();
+				 output = "{\"status\":\"success\", \"data\": \"" + emp + "\"}";
 		 }
 		 catch (Exception e)
 		 {
-			 output = "Error while updating Employee.";
+			 output = "{\"status\":\"error\", \"data\": \"Error while inserting the employee data.\"}";
 			 System.err.println(e.getMessage());
 		 }
 		 
@@ -201,11 +211,12 @@ public class Employee {
 			 // execute the statement
 			 preparedStmt.execute();
 			 con.close();
-			 output = "Employee Deleted successfully";
+			 String emp = readEmp();
+			 output = "{\"status\":\"success\", \"data\": \"" + emp + "\"}";
 			 }
 			 catch (Exception e)
 			 {
-				 output = "Error while deleting the Employee Object.";
+				 output = "{\"status\":\"error\", \"data\": \"Error while inserting the employee data.\"}";
 				 System.err.println(e.getMessage());
 			 }
 			 
@@ -280,7 +291,7 @@ public class Employee {
 	
 	/*Reading Employees by ID*/
 	
-	public JsonObject readEmp(String id)
+	/*public JsonObject readEmp(String id)
 	{
 		JsonObject output = null;
 		
@@ -320,6 +331,6 @@ public class Employee {
 			System.err.println(e.getMessage());
 		}
 		return output;
-	}
+	}*/
 	
 }
